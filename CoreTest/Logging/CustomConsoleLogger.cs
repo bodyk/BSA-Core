@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace CoreTest.Logging
 {
-    public class ColoredConsoleLogger : ILogger
+    public class CustomConsoleLogger : ILogger
     {
         private readonly string _name;
-        private readonly ColoredConsoleLoggerConfiguration _config;
-        public ColoredConsoleLogger(string name, ColoredConsoleLoggerConfiguration config)
+        private readonly CustomConsoleLoggerConfiguration _config;
+        public CustomConsoleLogger(string name, CustomConsoleLoggerConfiguration config)
         {
             _name = name;
             _config = config;
@@ -31,10 +32,7 @@ namespace CoreTest.Logging
             }
             if (_config.EventId == 0 || _config.EventId == eventId.Id)
             {
-                var color = Console.ForegroundColor;
-                Console.ForegroundColor = _config.Color;
-                Console.WriteLine($"{logLevel.ToString()} - {eventId.Id} - {_name} - {formatter(state, exception)}");
-                Console.ForegroundColor = color;
+                Debug.WriteLine($"CUSTOM LOG: {state.ToString()}");
             }
         }
     }

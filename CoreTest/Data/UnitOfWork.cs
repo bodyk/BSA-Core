@@ -35,7 +35,14 @@ namespace CoreTest.Data
 
         public void Save()
         {
-            _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                //For now exception with DB not handle
+            }
         }
 
         private bool _disposed = false;

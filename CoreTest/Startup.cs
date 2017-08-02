@@ -38,6 +38,7 @@ namespace CoreTest
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddTransient<IUnitOfWorkService, UnitOfWorkService>();
+            services.AddTransient<ILogger, CustomConsoleLogger>();
 
             services.AddMvc();
             services.AddSingleton(provider => Configuration);
@@ -46,18 +47,13 @@ namespace CoreTest
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, SchoolContext context)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            loggerFactory
+                .AddConsole()
+                .AddDebug();
 
-            loggerFactory.AddColoredConsoleLogger(c =>
+            loggerFactory.AddCustomConsoleLogger(c =>
             {
                 c.LogLevel = LogLevel.Information;
-                c.Color = ConsoleColor.Blue;
-            });
-            loggerFactory.AddColoredConsoleLogger(c =>
-            {
-                c.LogLevel = LogLevel.Debug;
-                c.Color = ConsoleColor.Gray;
             });
 
             DbInitializer.Initialize(context);
