@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoreTest.Data;
+using CoreTest.Extensions;
+using CoreTest.Logging;
+using CoreTest.Services.Implementations;
+using CoreTest.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -28,16 +34,36 @@ namespace CoreTest
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddDbContext<SchoolContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddTransient<IUnitOfWorkService, UnitOfWorkService>();
+
             services.AddMvc();
+            services.AddSingleton(provider => Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, SchoolContext context)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            loggerFactory.AddColoredConsoleLogger(c =>
+            {
+                c.LogLevel = LogLevel.Information;
+                c.Color = ConsoleColor.Blue;
+            });
+            loggerFactory.AddColoredConsoleLogger(c =>
+            {
+                c.LogLevel = LogLevel.Debug;
+                c.Color = ConsoleColor.Gray;
+            });
+
+            DbInitializer.Initialize(context);
+
             app.UseMvc();
+
         }
     }
 }
