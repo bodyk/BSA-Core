@@ -10,5 +10,6 @@ namespace CoreTest.Logging
     {
         public LogLevel LogLevel { get; set; } = LogLevel.Information;
         public int EventId { get; set; } = 0;
+        public string FilePath { get; set; }
     }
 }

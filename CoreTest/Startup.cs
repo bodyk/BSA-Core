@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using CoreTest.Data;
 using CoreTest.Extensions;
@@ -54,6 +55,7 @@ namespace CoreTest
             loggerFactory.AddCustomConsoleLogger(c =>
             {
                 c.LogLevel = LogLevel.Information;
+                c.FilePath = $"{System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)}\\CustomLog.txt";
             });
 
             DbInitializer.Initialize(context);
