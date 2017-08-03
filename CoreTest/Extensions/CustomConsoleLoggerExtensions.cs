@@ -7,23 +7,23 @@ using Microsoft.Extensions.Logging;
 
 namespace CoreTest.Extensions
 {
-    public static class CustomConsoleLoggerExtensions
+    public static class CustomLoggerExtensions
     {
-        public static ILoggerFactory AddCustomConsoleLogger(this ILoggerFactory loggerFactory, CustomConsoleLoggerConfiguration config)
+        public static ILoggerFactory AddCustomLogger(this ILoggerFactory loggerFactory, CustomLoggerConfiguration config)
         {
-            loggerFactory.AddProvider(new CustomConsoleLoggerProvider(config));
+            loggerFactory.AddProvider(new CustomLoggerProvider(config));
             return loggerFactory;
         }
-        public static ILoggerFactory AddCustomConsoleLogger(this ILoggerFactory loggerFactory)
+        public static ILoggerFactory AddCustomLogger(this ILoggerFactory loggerFactory)
         {
-            var config = new CustomConsoleLoggerConfiguration();
-            return loggerFactory.AddCustomConsoleLogger(config);
+            var config = new CustomLoggerConfiguration();
+            return loggerFactory.AddCustomLogger(config);
         }
-        public static ILoggerFactory AddCustomConsoleLogger(this ILoggerFactory loggerFactory, Action<CustomConsoleLoggerConfiguration> configure)
+        public static ILoggerFactory AddCustomLogger(this ILoggerFactory loggerFactory, Action<CustomLoggerConfiguration> configure)
         {
-            var config = new CustomConsoleLoggerConfiguration();
+            var config = new CustomLoggerConfiguration();
             configure(config);
-            return loggerFactory.AddCustomConsoleLogger(config);
+            return loggerFactory.AddCustomLogger(config);
         }
     }
 }

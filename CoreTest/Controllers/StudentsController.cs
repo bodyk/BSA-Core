@@ -20,10 +20,10 @@ namespace CoreTest.Controllers
         private readonly IUnitOfWorkService _unitOfWorkService;
         private readonly LoggerService _loggerService;
 
-        public StudentsController(IUnitOfWorkService unitOfWorkService)
+        public StudentsController(IUnitOfWorkService unitOfWorkService, LoggerService loggerService)
         {
             _unitOfWorkService = unitOfWorkService;
-            _loggerService = new LoggerService(new CustomConsoleLogger("", new CustomConsoleLoggerConfiguration()));
+            _loggerService = loggerService;
         }
 
         // GET: api/Students

@@ -9,11 +9,17 @@ using Microsoft.Extensions.Logging;
 
 namespace CoreTest.Logging
 {
-    public class CustomConsoleLogger : ILogger
+    public class CustomLogger : ILogger
     {
         private readonly string _name;
-        private readonly CustomConsoleLoggerConfiguration _config;
-        public CustomConsoleLogger(string name, CustomConsoleLoggerConfiguration config)
+        private readonly CustomLoggerConfiguration _config;
+
+        public CustomLogger(CustomLoggerConfiguration config)
+            : this("", config)
+        {
+        }
+
+        public CustomLogger(string name, CustomLoggerConfiguration config)
         {
             _name = name;
             _config = config;

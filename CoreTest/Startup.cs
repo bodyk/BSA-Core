@@ -39,7 +39,12 @@ namespace CoreTest
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddTransient<IUnitOfWorkService, UnitOfWorkService>();
-            services.AddTransient<ILogger, CustomConsoleLogger>();
+            services.AddTransient<ILogger, CustomLogger>();
+            services.AddTransient<LoggerService>();
+            services.AddTransient<CustomLogger>();
+            services.AddTransient<CustomLoggerConfiguration>();
+
+
 
             services.AddMvc();
             services.AddSingleton(provider => Configuration);
@@ -52,7 +57,7 @@ namespace CoreTest
                 .AddConsole()
                 .AddDebug();
 
-            loggerFactory.AddCustomConsoleLogger(c =>
+            loggerFactory.AddCustomLogger(c =>
             {
                 c.LogLevel = LogLevel.Information;
                 c.FilePath = $"{System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)}\\CustomLog.txt";

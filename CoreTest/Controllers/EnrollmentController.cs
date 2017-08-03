@@ -19,10 +19,10 @@ namespace CoreTest.Controllers
         private readonly IUnitOfWorkService _unitOfWorkService;
         private readonly LoggerService _loggerService;
 
-        public EnrollmentsController(IUnitOfWorkService unitOfWorkService)
+        public EnrollmentsController(IUnitOfWorkService unitOfWorkService, LoggerService loggerService)
         {
             _unitOfWorkService = unitOfWorkService;
-            _loggerService = new LoggerService(new CustomConsoleLogger("", new CustomConsoleLoggerConfiguration()));
+            _loggerService = loggerService;
         }
 
         // GET: api/Enrollments
